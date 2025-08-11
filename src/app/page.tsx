@@ -9,16 +9,30 @@ import axios from 'axios';
 
 export default function Home() {
   const [urlItems, setUrlItems] = useState<JSX.Element | null>(null)
-  axios.get(`${process.env.NEXT_PUBLIC_API_URL}/manage/urls`)
-    .then(res => setUrlItems(
-      <div>
-        {`${{ res }}`}
-      </div>
-    )).catch(e => setUrlItems(
-      <div>
-        Error has occurred: {`${e}`}
-      </div>
-    ))
+
+  useEffect(() => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL
+
+    if (!API_URL) {
+      setUrlItems(<div>API url undefined</div>)
+    }
+
+    axios.get(`${API_URL}/manage/urls`).then(
+      (data) => {
+        const urls: Array<Map<string, string>> = data.data.urls
+        console.log(urls)
+        setUrlItems(
+          <div>
+            {urls.map(value => (
+              <div key={value.target}>
+                {value.location}
+              </div>
+            ))}
+          </div>
+        )
+      }
+    ).catch((e) => setUrlItems(<div>{`${e}`}</div>))
+  }, [])
 
   return (
     <>
@@ -30,7 +44,7 @@ export default function Home() {
           </h1>
         </div>
         <div className='flex items-center gap-3'>
-          <button className='flex items-center gap-1.5 rounded-md h-8 bg-green-200 pr-2 pl-2 hover:bg-green-400 hover:cursor-pointer'>
+          <button className='flex items-center gap-1.5 text-black/75 rounded-md h-8 bg-green-200 pr-2 pl-2 hover:bg-green-400 hover:cursor-pointer'>
             <FontAwesomeIcon icon={faPlus} />
             Create
           </button>
@@ -39,7 +53,9 @@ export default function Home() {
           </button>
         </div>
       </header>
-      {urlItems}
+      <div className='m-1'>
+        {urlItems}
+      </div>
     </>
   );
 }
