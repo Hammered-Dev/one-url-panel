@@ -1,5 +1,3 @@
-"use client"
-
 import React, { JSX, Suspense, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./globals.css"
@@ -39,7 +37,7 @@ function HomeBody() {
             {urls.map((value: Urls) => {
               const target: string = `${value.target}`;
               const location = `${value.location}`;
-              return <UrlItem key={target} target={`${`${process.env.NEXT_PUBLIC_API_URL}`}/rd/${target}`} location={location} onDeletePressed={() => route.refresh()} />
+              return <UrlItem key={target} target={`${`${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}`}/rd/${target}`} location={location} onDeletePressed={() => route.refresh()} />
             })}
           </div>
         );
@@ -99,7 +97,7 @@ function HomeBody() {
               <div className='w-24'>Target:</div>
               <div className='flex flex-row w-full items-center gap-2 ml-2 outline rounded-md pl-1 outline-black/15'>
                 <div>
-                  {`${process.env.NEXT_PUBLIC_API_URL}`}/rd/
+                  {`${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}`}/rd/
                 </div>
                 <input onChange={handleTargetChange} value={targetUrl} className='w-full outline-transparent p-1 pl-2 rounded-md bg-black/10'></input>
               </div>

@@ -16,12 +16,11 @@ services:
       - POSTGRES_DBMANE=postgres
     depends_on:
       - db
+    ports:
+      - 8000:8000
   oneurlpanel:
-    image: oneurlpanel
-    env_file: ./.env
     build:
       context: .
       dockerfile: ./Dockerfile
     ports:
       - 3000:3000
-    entrypoint: ["npm", "run", "start"]
