@@ -18,8 +18,7 @@ export default async function UrlList() {
                             <UrlItem
                                 key={value.target}
                                 target={value.target}
-                                location={value.location}
-                                onDeletePressed={() => { }} />
+                                location={value.location} />
                         )
                     })
                 }

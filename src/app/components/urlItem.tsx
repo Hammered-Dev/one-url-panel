@@ -1,3 +1,5 @@
+'use client'
+
 import { faLink, faPen, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import axios from "axios";
@@ -5,16 +7,15 @@ import axios from "axios";
 type Props = {
     target: string | undefined;
     location: string | undefined;
-    onDeletePressed: () => void;
 }
 
-export default function UrlItem({ target, location, onDeletePressed }: Props) {
+export default function UrlItem({ target, location }: Props) {
     function delete_record() {
         if (target) {
             const target_array = target.split('/')
             axios.delete(`${process.env.API_URL}/manage/urls/${target_array[target_array.length - 1]}`)
                 .catch((e) => console.log(e))
-                .finally(() => onDeletePressed())
+                .finally(() => { })
         }
     }
 
