@@ -45,10 +45,10 @@ export default function Dialog({ title, onClose, onComfirm, children }: Props) {
                     </div>
                     <div>{children}</div>
                     <div className="flex flex-row justify-end mr-1">
-                        <button onClick={comfirm} className="m-1 rounded-xl hover:bg-black/10 p-2 hover:cursor-pointer">
+                        <button onClick={comfirm} className="m-1 rounded hover:bg-black/10 p-2 hover:cursor-pointer">
                             Comfirm
                         </button>
-                        <button onClick={close} className="m-1 rounded-xl hover:bg-red-300 p-2 hover:cursor-pointer">
+                        <button onClick={close} className="m-1 rounded hover:bg-red-300 p-2 hover:cursor-pointer">
                             Close
                         </button>
                     </div>

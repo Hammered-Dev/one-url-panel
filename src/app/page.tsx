@@ -14,6 +14,7 @@ import UrlItem from './components/urlItem';
 export default function Home() {
   const [urlItems, setUrlItems] = useState<JSX.Element | null>(null)
   const [targetUrl, setTargetUrl] = useState<string>("")
+  const [locationUrl, setLocationUrl] = useState<string>("")
   const route = useRouter()
   const searchParams = useSearchParams()
   const path = usePathname()
@@ -34,13 +35,13 @@ export default function Home() {
             {urls.map((value) => {
               const target = value.target;
               const location = value.location;
-              return <UrlItem key={target} target={target} location={location} />
+              return <UrlItem key={target} target={`${`${process.env.NEXT_PUBLIC_API_URL}`}/rd/${target}`} location={location} />
             })}
           </div>
         )
       }
     ).catch((e) => setUrlItems(<div>{`${e}`}</div>))
-  }, [])
+  }, [searchParams])
 
   function updateParams(key: string, value: string | null) {
     const params = new URLSearchParams(searchParams);
@@ -56,29 +57,51 @@ export default function Home() {
     updateParams('dialog', null)
     route.refresh()
     setTargetUrl("")
+    setLocationUrl("")
   }
 
   function closeDialog() {
     updateParams('dialog', null)
     setTargetUrl("")
+    setLocationUrl("")
   }
 
-  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+  const handleTargetChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setTargetUrl(event.target.value);
   };
 
+  const handleLocationChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
+    setLocationUrl(event.target.value);
+  };
+
+  function sendData() {
+    axios.post(
+      `${process.env.NEXT_PUBLIC_API_URL}/manage/url`,
+      {
+        "target": targetUrl,
+        "location": locationUrl
+      }
+    ).finally(
+      () => comfirmDialog()
+    )
+  }
+
   return (
     <>
-      <Dialog title='te' onClose={() => closeDialog()} onComfirm={() => comfirmDialog}>
+      <Dialog title='Create Link' onClose={() => closeDialog()} onComfirm={() => sendData()}>
         <div className='m-3 gap-3 flex flex-col items-center'>
           <div className='flex flex-row items-center w-full g-3'>
-            <div>Target:</div>
+            <div className='w-24'>Target:</div>
             <div className='flex flex-row w-full items-center gap-2 ml-2 outline rounded-md pl-1 outline-black/15'>
               <div>
                 {`${process.env.NEXT_PUBLIC_API_URL}`}/rd/
               </div>
-              <input onChange={handleChange} value={targetUrl} className='w-full outline-transparent p-1 pl-2 rounded-md bg-black/10'></input>
+              <input onChange={handleTargetChange} value={targetUrl} className='w-full outline-transparent p-1 pl-2 rounded-md bg-black/10'></input>
             </div>
+          </div>
+          <div className='flex flex-row items-center w-full g-3'>
+            <div className='w-24'>Location:</div>
+            <input onChange={handleLocationChange} value={locationUrl} className='w-full outline outline-black/15 p-1 pl-2 ml-2 rounded-md bg-black/10'></input>
           </div>
         </div>
       </Dialog>
