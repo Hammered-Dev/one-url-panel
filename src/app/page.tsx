@@ -35,13 +35,13 @@ export default function Home() {
             {urls.map((value) => {
               const target = value.target;
               const location = value.location;
-              return <UrlItem key={target} target={`${`${process.env.NEXT_PUBLIC_API_URL}`}/rd/${target}`} location={location} />
+              return <UrlItem key={target} target={`${`${process.env.NEXT_PUBLIC_API_URL}`}/rd/${target}`} location={location} onDeletePressed={() => route.refresh()} />
             })}
           </div>
         )
       }
     ).catch((e) => setUrlItems(<div>{`${e}`}</div>))
-  }, [searchParams])
+  }, [route, searchParams])
 
   function updateParams(key: string, value: string | null) {
     const params = new URLSearchParams(searchParams);
@@ -76,7 +76,7 @@ export default function Home() {
 
   function sendData() {
     axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/manage/url`,
+      `${process.env.NEXT_PUBLIC_API_URL}/manage/urls`,
       {
         "target": targetUrl,
         "location": locationUrl
