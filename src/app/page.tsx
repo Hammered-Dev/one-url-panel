@@ -1,7 +1,6 @@
 "use client"
 
-import Image from 'next/image';
-import React, { JSX, useEffect, useState } from "react";
+import React, { JSX, Suspense, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./globals.css"
 import { faGear, faPlus } from '@fortawesome/free-solid-svg-icons';
@@ -11,7 +10,7 @@ import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import AppBar from './components/appbar';
 import UrlItem from './components/urlItem';
 
-export default function Home() {
+function HomeBody() {
   const [urlItems, setUrlItems] = useState<JSX.Element | null>(null);
   const [targetUrl, setTargetUrl] = useState<string>("");
   const [locationUrl, setLocationUrl] = useState<string>("");
@@ -93,23 +92,25 @@ export default function Home() {
 
   return (
     <>
-      <Dialog title='Create Link' onClose={() => closeDialog()} onComfirm={() => sendData()}>
-        <div className='m-3 gap-3 flex flex-col items-center'>
-          <div className='flex flex-row items-center w-full g-3'>
-            <div className='w-24'>Target:</div>
-            <div className='flex flex-row w-full items-center gap-2 ml-2 outline rounded-md pl-1 outline-black/15'>
-              <div>
-                {`${process.env.NEXT_PUBLIC_API_URL}`}/rd/
+      <Suspense>
+        <Dialog title='Create Link' onClose={() => closeDialog()} onComfirm={() => sendData()}>
+          <div className='m-3 gap-3 flex flex-col items-center'>
+            <div className='flex flex-row items-center w-full g-3'>
+              <div className='w-24'>Target:</div>
+              <div className='flex flex-row w-full items-center gap-2 ml-2 outline rounded-md pl-1 outline-black/15'>
+                <div>
+                  {`${process.env.NEXT_PUBLIC_API_URL}`}/rd/
+                </div>
+                <input onChange={handleTargetChange} value={targetUrl} className='w-full outline-transparent p-1 pl-2 rounded-md bg-black/10'></input>
               </div>
-              <input onChange={handleTargetChange} value={targetUrl} className='w-full outline-transparent p-1 pl-2 rounded-md bg-black/10'></input>
+            </div>
+            <div className='flex flex-row items-center w-full g-3'>
+              <div className='w-24'>Location:</div>
+              <input onChange={handleLocationChange} value={locationUrl} className='w-full outline outline-black/15 p-1 pl-2 ml-2 rounded-md bg-black/10'></input>
             </div>
           </div>
-          <div className='flex flex-row items-center w-full g-3'>
-            <div className='w-24'>Location:</div>
-            <input onChange={handleLocationChange} value={locationUrl} className='w-full outline outline-black/15 p-1 pl-2 ml-2 rounded-md bg-black/10'></input>
-          </div>
-        </div>
-      </Dialog>
+        </Dialog>
+      </Suspense>
       <AppBar title='OneUrl' leading_icon='/ou.svg' actions={
         <div className='flex items-center gap-3'>
           <button onClick={() => updateParams('dialog', 'true')} className='flex items-center gap-1.5 text-black/75 dark:text-white/85 rounded-md h-8 bg-green-200 dark:bg-green-700 pr-2 pl-2 hover:bg-green-400 dark:hover:bg-green-500 hover:cursor-pointer'>
@@ -126,4 +127,10 @@ export default function Home() {
       </div>
     </>
   );
+}
+
+export default function Home() {
+  return (<Suspense>
+    <HomeBody />
+  </Suspense>)
 }
