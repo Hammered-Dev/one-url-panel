@@ -12,7 +12,7 @@ export default function UrlItem({ target, location, onDeletePressed }: Props) {
     function delete_record() {
         if (target) {
             const target_array = target.split('/')
-            axios.delete(`${process.env.NEXT_PUBLIC_API_URL}/manage/urls/${target_array[target_array.length - 1]}`)
+            axios.delete(`${process.env.API_URL}/manage/urls/${target_array[target_array.length - 1]}`)
                 .catch((e) => console.log(e))
                 .finally(() => onDeletePressed())
         }

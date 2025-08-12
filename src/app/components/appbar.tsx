@@ -1,5 +1,10 @@
+'use client'
+
 import { JSX } from "react"
 import Image from "next/image"
+import { faGear } from "@fortawesome/free-solid-svg-icons"
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
+import { IconButton } from "./buttons"
 
 type Props = {
     title: string
@@ -18,5 +23,20 @@ export default function AppBar({ title, leading_icon, actions }: Props) {
             </div>
             {actions}
         </header>
+    )
+}
+
+export function HomeAppBar() {
+    return (
+        <AppBar
+            title={""}
+            leading_icon={"/ou.svg"}
+            actions={
+                <IconButton
+                    icon={
+                        <FontAwesomeIcon
+                            icon={faGear} />
+                    }
+                    onClick={() => { }} />} />
     )
 }
