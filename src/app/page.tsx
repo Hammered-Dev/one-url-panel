@@ -12,36 +12,41 @@ import AppBar from './components/appbar';
 import UrlItem from './components/urlItem';
 
 export default function Home() {
-  const [urlItems, setUrlItems] = useState<JSX.Element | null>(null)
-  const [targetUrl, setTargetUrl] = useState<string>("")
-  const [locationUrl, setLocationUrl] = useState<string>("")
-  const route = useRouter()
-  const searchParams = useSearchParams()
-  const path = usePathname()
+  const [urlItems, setUrlItems] = useState<JSX.Element | null>(null);
+  const [targetUrl, setTargetUrl] = useState<string>("");
+  const [locationUrl, setLocationUrl] = useState<string>("");
+  const route = useRouter();
+  const searchParams = useSearchParams();
+  const path = usePathname();
+  interface Urls {
+    target: string;
+    location: string;
+  }
 
   useEffect(() => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
     if (!API_URL) {
-      setUrlItems(<div>API url undefined</div>)
+      setUrlItems(<div>API url undefined</div>);
     }
 
     axios.get(`${API_URL}/manage/urls`).then(
       (data) => {
-        const urls: Array<Map<string, string>> = data.data.urls
-        console.log(urls)
+        const urls = data.data.urls;
+        console.log(urls);
+        console.log(typeof urls);
         setUrlItems(
           <div>
-            {urls.map((value) => {
-              const target = value.target;
-              const location = value.location;
+            {urls.map((value: Urls) => {
+              const target: string = `${value.target}`;
+              const location = `${value.location}`;
               return <UrlItem key={target} target={`${`${process.env.NEXT_PUBLIC_API_URL}`}/rd/${target}`} location={location} onDeletePressed={() => route.refresh()} />
             })}
           </div>
-        )
+        );
       }
-    ).catch((e) => setUrlItems(<div>{`${e}`}</div>))
-  }, [route, searchParams])
+    ).catch((e) => setUrlItems(<div>{`${e}`}</div>));
+  }, [route, searchParams]);
 
   function updateParams(key: string, value: string | null) {
     const params = new URLSearchParams(searchParams);
