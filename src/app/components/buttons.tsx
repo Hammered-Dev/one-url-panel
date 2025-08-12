@@ -15,12 +15,13 @@ export function IconButton({ icon, onClick }: IconBtnProps) {
 
 type TextBtnProps = {
     text: string;
+    className: string;
     onClick: () => void;
 }
 
-export function TextButton({ text, onClick }: TextBtnProps) {
+export function TextButton({ text, className, onClick }: TextBtnProps) {
     return (
-        <button onClick={onClick} className="rounded hover:bg-gray-300 h-8">
+        <button onClick={onClick} className={"rounded h-8 pl-4 pr-4 items-center " + className}>
             {text}
         </button>
     )

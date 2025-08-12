@@ -4,7 +4,7 @@ import { JSX } from "react"
 import Image from "next/image"
 import { faGear } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { IconButton } from "./buttons"
+import { IconButton, TextButton } from "./buttons"
 
 type Props = {
     title: string
@@ -32,11 +32,20 @@ export function HomeAppBar() {
             title={""}
             leading_icon={"/ou.svg"}
             actions={
-                <IconButton
-                    icon={
-                        <FontAwesomeIcon
-                            icon={faGear} />
-                    }
-                    onClick={() => { }} />} />
+                <div className="gap-1 flex flex-row">
+                    <TextButton
+                        text={"Create"}
+                        onClick={function (): void {
+                            throw new Error("Function not implemented.")
+                        }}
+                        className={"bg-green-300 hover:bg-green-500"} />
+                    <IconButton
+                        icon={
+                            <FontAwesomeIcon
+                                icon={faGear} />
+                        }
+                        onClick={() => { }} />
+                </div>
+            } />
     )
 }
