@@ -9,6 +9,7 @@ import axios from 'axios';
 import Dialog from './components/dialog';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import AppBar from './components/appbar';
+import UrlItem from './components/urlItem';
 
 export default function Home() {
   const [urlItems, setUrlItems] = useState<JSX.Element | null>(null)
@@ -30,11 +31,11 @@ export default function Home() {
         console.log(urls)
         setUrlItems(
           <div>
-            {urls.map(value => (
-              <div key={value.target}>
-                {value.location}
-              </div>
-            ))}
+            {urls.map((value) => {
+              const target = value.target;
+              const location = value.location;
+              return <UrlItem key={target} target={target} location={location} />
+            })}
           </div>
         )
       }
@@ -62,7 +63,7 @@ export default function Home() {
     setTargetUrl("")
   }
 
-  const handleChange = (event) => {
+  const handleChange = (event: { target: { value: React.SetStateAction<string>; }; }) => {
     setTargetUrl(event.target.value);
   };
 
@@ -83,11 +84,11 @@ export default function Home() {
       </Dialog>
       <AppBar title='OneUrl' leading_icon='/ou.svg' actions={
         <div className='flex items-center gap-3'>
-          <button onClick={() => updateParams('dialog', 'true')} className='flex items-center gap-1.5 text-black/75 rounded-md h-8 bg-green-200 pr-2 pl-2 hover:bg-green-400 hover:cursor-pointer'>
+          <button onClick={() => updateParams('dialog', 'true')} className='flex items-center gap-1.5 text-black/75 dark:text-white/85 rounded-md h-8 bg-green-200 dark:bg-green-700 pr-2 pl-2 hover:bg-green-400 dark:hover:bg-green-500 hover:cursor-pointer'>
             <FontAwesomeIcon icon={faPlus} />
             Create
           </button>
-          <button onClick={() => console.log('setting')} className="rounded w-8 h-8 hover:bg-gray-300 hover:cursor-pointer">
+          <button onClick={() => console.log('setting')} className="rounded w-8 h-8 hover:bg-gray-300 hover:cursor-pointer dark:hover:bg-slate-600">
             <FontAwesomeIcon icon={faGear} />
           </button>
         </div>
