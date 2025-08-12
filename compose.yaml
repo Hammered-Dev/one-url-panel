@@ -1,0 +1,27 @@
+name: one-url
+services:
+  db:
+    image: postgres:17.5-alpine3.22
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=password
+  api:
+    image: oneurlbe
+    restart: always
+    environment:
+      - POSTGRES_HOST=db
+      - POSTGRES_PORT=5432
+      - POSTGRES_USRNAME=postgres
+      - POSTGRES_PASS=password
+      - POSTGRES_DBMANE=postgres
+    depends_on:
+      - db
+  oneurlpanel:
+    image: oneurlpanel
+    env_file: ./.env
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    ports:
+      - 3000:3000
+    entrypoint: ["npm", "run", "start"]
