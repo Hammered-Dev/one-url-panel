@@ -1,3 +1,5 @@
+'use client'
+
 import React, { JSX, Suspense, useEffect, useState } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import "./globals.css"
@@ -7,6 +9,7 @@ import Dialog from './components/dialog';
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
 import AppBar from './components/appbar';
 import UrlItem from './components/urlItem';
+import { deleteUrl, Urls, getUrls, newUrls, BaseUrl } from "./components/url_lists";
 
 function HomeBody() {
   const [urlItems, setUrlItems] = useState<JSX.Element | null>(null);
@@ -15,35 +18,13 @@ function HomeBody() {
   const route = useRouter();
   const searchParams = useSearchParams();
   const path = usePathname();
-  interface Urls {
-    target: string;
-    location: string;
-  }
-
   useEffect(() => {
-    const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-    if (!API_URL) {
-      setUrlItems(<div>API url undefined</div>);
+    try {
+      updateItems()
+    } catch (e) {
+      setUrlItems(<div>{`${e}`}</div>)
     }
-
-    axios.get(`${API_URL}/manage/urls`).then(
-      (data) => {
-        const urls = data.data.urls;
-        console.log(urls);
-        console.log(typeof urls);
-        setUrlItems(
-          <div>
-            {urls.map((value: Urls) => {
-              const target: string = `${value.target}`;
-              const location = `${value.location}`;
-              return <UrlItem key={target} target={`${`${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}`}/rd/${target}`} location={location} onDeletePressed={() => route.refresh()} />
-            })}
-          </div>
-        );
-      }
-    ).catch((e) => setUrlItems(<div>{`${e}`}</div>));
-  }, [route, searchParams]);
+  }, []);
 
   function updateParams(key: string, value: string | null) {
     const params = new URLSearchParams(searchParams);
@@ -76,28 +57,35 @@ function HomeBody() {
     setLocationUrl(event.target.value);
   };
 
-  function sendData() {
-    axios.post(
-      `${process.env.NEXT_PUBLIC_API_URL}/manage/urls`,
-      {
-        "target": targetUrl,
-        "location": locationUrl
-      }
-    ).finally(
-      () => comfirmDialog()
+  async function updateItems() {
+    const urls = await getUrls()
+    setUrlItems(
+      <div>
+        {(urls).map((value: Urls) => (
+          <UrlItem
+            key={value.target}
+            target={value.target}
+            location={value.location}
+            onDeletePressed={() => {
+              deleteUrl(() => {
+                route.refresh()
+              }, value.target)
+            }} />
+        ))}
+      </div>
     )
   }
 
   return (
     <>
       <Suspense>
-        <Dialog title='Create Link' onClose={() => closeDialog()} onComfirm={() => sendData()}>
+        <Dialog title='Create Link' onClose={() => closeDialog()} onComfirm={() => newUrls(targetUrl, locationUrl, () => comfirmDialog())}>
           <div className='m-3 gap-3 flex flex-col items-center'>
             <div className='flex flex-row items-center w-full g-3'>
               <div className='w-24'>Target:</div>
               <div className='flex flex-row w-full items-center gap-2 ml-2 outline rounded-md pl-1 outline-black/15'>
                 <div>
-                  {`${process.env.NEXT_PUBLIC_EXTERNAL_API_URL}`}/rd/
+                  <BaseUrl />/rd/
                 </div>
                 <input onChange={handleTargetChange} value={targetUrl} className='w-full outline-transparent p-1 pl-2 rounded-md bg-black/10'></input>
               </div>
