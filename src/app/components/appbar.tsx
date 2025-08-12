@@ -5,6 +5,7 @@ import Image from "next/image"
 import { faGear } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IconButton, TextButton } from "./buttons"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 
 type Props = {
     title: string
@@ -27,6 +28,15 @@ export default function AppBar({ title, leading_icon, actions }: Props) {
 }
 
 export function HomeAppBar() {
+    const router = useRouter()
+    const searchParams = useSearchParams()
+    const path = usePathname()
+
+    const showDialog = () => {
+        const params = new URLSearchParams(searchParams)
+        params.set('dialog', 'true')
+        router.replace(`${path}?${params.toString()}`)
+    }
     return (
         <AppBar
             title={""}
@@ -35,9 +45,7 @@ export function HomeAppBar() {
                 <div className="gap-1 flex flex-row">
                     <TextButton
                         text={"Create"}
-                        onClick={function (): void {
-                            throw new Error("Function not implemented.")
-                        }}
+                        onClick={() => showDialog()}
                         className={"bg-green-300 hover:bg-green-500"} />
                     <IconButton
                         icon={
