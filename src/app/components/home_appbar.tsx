@@ -29,7 +29,7 @@ export function HomeAppBar() {
                     <IconButton
                         icon={<FontAwesomeIcon
                             icon={faGear} />}
-                        onClick={() => { }}
+                        onClick={() => { router.push('/settings') }}
                         className={"hover:bg-gray-400"} />
                 </div>
             } />
