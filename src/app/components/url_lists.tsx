@@ -11,7 +11,7 @@ export default async function UrlList() {
         }
 
         return (
-            <div>
+            <div className="p-2">
                 {
                     urls.map((value: Url) => {
                         return (

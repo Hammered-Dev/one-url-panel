@@ -1,4 +1,5 @@
 import DeleteUrlButton from "./delete_url_button";
+import OpenTabButton from "./open_tab_button";
 
 type Props = {
     target: string | undefined;
@@ -11,6 +12,9 @@ export default async function UrlItem({ target, location }: Props) {
 
     return (
         <div className="flex flex-row items-center w-full p-2 border-b border-b-black/15 gap-1">
+            <div>
+                <OpenTabButton link={`rd/${target}`} />
+            </div>
             <div className="w-full">
                 {target}
             </div>
