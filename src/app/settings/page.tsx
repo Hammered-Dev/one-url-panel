@@ -1,14 +1,13 @@
-import getConfig from "next/config";
 import { SettingsAppBar } from "../components/settings_app_bar"
 import { SettingBody } from "./page_body"
+import { env } from "next-runtime-env";
 
 export default async function Setting() {
-    const { serverRuntimeConfig } = getConfig();
 
     return (
         <>
             <SettingsAppBar />
-            <SettingBody api_url={serverRuntimeConfig.api_url} />
+            <SettingBody api_url={`${env('API_URL')}`} />
         </>
     )
 }

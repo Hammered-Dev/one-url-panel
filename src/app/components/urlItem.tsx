@@ -1,3 +1,4 @@
+import { env } from "next-runtime-env";
 import DeleteUrlButton from "./delete_url_button";
 import OpenTabButton from "./open_tab_button";
 
@@ -22,7 +23,7 @@ export default async function UrlItem({ target, location }: Props) {
                 {location}
             </div>
             <div className="flex flex-row gap-3">
-                <DeleteUrlButton api_url={`${process.env.API_URL}/manage/urls/${target_id}`} />
+                <DeleteUrlButton api_url={`${env('API_URL')}/manage/urls/${target_id}`} />
             </div>
         </div>
     )
