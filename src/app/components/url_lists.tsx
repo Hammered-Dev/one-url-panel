@@ -15,7 +15,7 @@ export default function UrlList({ api_url }: { api_url: string }) {
         axios.get(`${api_url}/manage/urls`)
             .then((value) => {
                 setUrls(
-                    <div>
+                    <div className="p-2">
                         {
                             value.data.urls.map((value: Url) => {
                                 return (
