@@ -50,6 +50,7 @@ export default function AddUrlDialog({ api_url }: { api_url: string }) {
                     Location
                     <input
                         value={location}
+                        type="url"
                         onChange={(event) => setLocation(event.target.value)}
                         className="w-full rounded-md border-transparent outline-transparent bg-gray-300 p-1">
                     </input>
