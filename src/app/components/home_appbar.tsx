@@ -27,11 +27,10 @@ export function HomeAppBar() {
                         onClick={() => showDialog()}
                         className={"bg-green-300 hover:bg-green-500"} />
                     <IconButton
-                        icon={
-                            <FontAwesomeIcon
-                                icon={faGear} />
-                        }
-                        onClick={() => { }} />
+                        icon={<FontAwesomeIcon
+                            icon={faGear} />}
+                        onClick={() => { }}
+                        className={"hover:bg-gray-400"} />
                 </div>
             } />
     )

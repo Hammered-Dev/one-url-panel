@@ -2,12 +2,13 @@ import { JSX } from "react"
 
 type IconBtnProps = {
     icon: JSX.Element;
+    className: string;
     onClick: () => void;
 }
 
-export function IconButton({ icon, onClick }: IconBtnProps) {
+export function IconButton({ icon, className, onClick }: IconBtnProps) {
     return (
-        <button onClick={onClick} className="rounded hover:bg-gray-300 w-8 h-8">
+        <button onClick={onClick} className={"rounded w-8 h-8 hover:cursor-pointer " + className}>
             {icon}
         </button>
     )
@@ -21,7 +22,7 @@ type TextBtnProps = {
 
 export function TextButton({ text, className, onClick }: TextBtnProps) {
     return (
-        <button onClick={onClick} className={"rounded h-8 pl-4 pr-4 items-center " + className}>
+        <button onClick={onClick} className={"rounded h-8 pl-4 pr-4 items-center hover:cursor-pointer " + className}>
             {text}
         </button>
     )
