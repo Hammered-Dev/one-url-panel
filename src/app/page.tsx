@@ -8,7 +8,7 @@ export default async function Home() {
     <>
       <Suspense>
         <HomeAppBar />
-        <UrlList />
+        <UrlList api_url={`${env('API_URL')}`} />
         <AddUrlDialog api_url={`${env('API_URL')}/manage/urls`} />
       </Suspense>
     </>
