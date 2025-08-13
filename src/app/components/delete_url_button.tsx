@@ -1,30 +1,30 @@
-import axios from "axios";
+'use client'
+
 import { IconButton } from "./buttons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import axios from "axios";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
-export default function DeleteUrlButton({ target, onDelete }: { target: string, onDelete: () => void }) {
-    const onPressed = async () => {
-        try {
-            await axios.delete(`${process.env.API_URL}/manage/urls/${target}`);
-        } catch (error) {
-            if (error instanceof AggregateError) {
-                console.error("Caught an AggregateError:", error.message);
-                error.errors.forEach((subErr, index) => {
-                    console.error(`Sub-error ${index + 1}:`, subErr.message);
-                });
-            } else {
-                console.log(error)
-            }
-        } finally {
-            onDelete()
-        }
+export default function DeleteUrlButton({ api_url }: { api_url: string }) {
+    const params = useSearchParams();
+    const router = useRouter();
+    const path = usePathname();
+
+    const reload = () => {
+        const sparams = new URLSearchParams(params);
+        sparams.set('r', 't');
+        router.replace(`${path}?${sparams.toString()}`);
+        router.replace(path)
     }
 
     return (
         <IconButton
             icon={<FontAwesomeIcon icon={faTrash} />}
             className={"hover:bg-red-300"}
-            onClick={() => onPressed()} />
+            onClick={() => {
+                axios.delete(api_url);
+                reload()
+            }} />
     )
 }
