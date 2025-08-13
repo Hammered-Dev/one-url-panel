@@ -12,5 +12,7 @@ export function SettingBody({ api_url }: { api_url: string }) {
             .catch((e) => console.log(e))
     })
 
-    return <div>{delay}</div>
+    return (
+        <div>{delay}</div>
+    )
 }
