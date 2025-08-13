@@ -15,12 +15,15 @@ export default function AddUrlDialog({ api_url }: { api_url: string }) {
 
     const closeDialog = () => {
         router.replace(`${path}`)
+        setTarget("")
+        setLocation("")
     }
 
     const onComfirm = () => {
         axios.post(api_url, { "target": target, "location": location })
             .then(() => closeDialog())
             .catch((error) => console.log(error))
+        closeDialog()
     }
 
     useEffect(() => {
