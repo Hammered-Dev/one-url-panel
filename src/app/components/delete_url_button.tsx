@@ -21,7 +21,7 @@ export default function DeleteUrlButton({ api_url }: { api_url: string }) {
     return (
         <IconButton
             icon={<FontAwesomeIcon icon={faTrash} />}
-            className={"hover:bg-red-300"}
+            className={"hover:bg-red-300 dark:hover:bg-red-500"}
             onClick={() => {
                 axios.delete(api_url);
                 reload()

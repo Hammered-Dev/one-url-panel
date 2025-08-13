@@ -17,9 +17,9 @@ export function SettingBody({ api_url }: { api_url: string }) {
 
     return (
         <>
-            <div className="flex flex-row justify-evenly m-5 items-center h-full grow">
+            <div className="flex flex-row justify-between m-5 items-center h-full grow w-2xl self-center place-self-center">
                 Redirection delay (ms)
-                <input className="outline-black/15 rounded-md border-black/15 border p-1" type="number" value={delay} onChange={(event) => setDelay(event.target.value)}></input>
+                <input className="outline-black/15 rounded-md border-black/15 dark:border-white/25 border p-1" type="number" value={delay} onChange={(event) => setDelay(event.target.value)}></input>
             </div>
             <SettingsBottomBar onSaveClick={() => {
                 axios.put(`${api_url}/settings`, { 'delay': delay })

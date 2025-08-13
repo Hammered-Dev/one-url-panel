@@ -14,7 +14,7 @@ export function SettingsAppBar() {
             leading_icon={"/ou.svg"}
             actions={<IconButton
                 icon={<FontAwesomeIcon icon={faHouse} />}
-                className={"hover:bg-gray-300"}
+                className={"hover:bg-gray-300 dark:hover:bg-slate-500"}
                 onClick={() => router.back()} />
             } />
     )

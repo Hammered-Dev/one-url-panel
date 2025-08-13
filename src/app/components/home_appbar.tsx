@@ -18,19 +18,19 @@ export function HomeAppBar() {
     }
     return (
         <AppBar
-            title={""}
+            title={"OneUrl"}
             leading_icon={"/ou.svg"}
             actions={
                 <div className="gap-1 flex flex-row">
                     <TextButton
                         text={"Create"}
                         onClick={() => showDialog()}
-                        className={"bg-green-300 hover:bg-green-500"} />
+                        className={"bg-green-300 hover:bg-green-500 dark:bg-green-700"} />
                     <IconButton
                         icon={<FontAwesomeIcon
                             icon={faGear} />}
                         onClick={() => { router.push('/settings') }}
-                        className={"hover:bg-gray-300"} />
+                        className={"hover:bg-gray-300 dark:hover:bg-slate-500"} />
                 </div>
             } />
     )
