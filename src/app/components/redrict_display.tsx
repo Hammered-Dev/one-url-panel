@@ -11,5 +11,5 @@ export default function RedirctDisplay({ link, delay }: { link: string, delay: n
         return () => clearTimeout(timer);
     })
 
-    return <div>Redirecting...</div>;
+    return <div className="text-2xl">Redirecting...</div>;
 }
