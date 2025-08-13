@@ -1,9 +1,11 @@
 import axios from "axios";
 import UrlItem from "./urlItem";
+import getConfig from "next/config";
 
 export default async function UrlList() {
+    const { serverRuntimeConfig } = getConfig();
     try {
-        const data = await axios.get(`${process.env.API_URL}/manage/urls`);
+        const data = await axios.get(`${serverRuntimeConfig.api_url}/manage/urls`);
         const urls = data.data.urls
         interface Url {
             target: string;
