@@ -21,7 +21,7 @@ export default function AddURlModal({ isOpen, onOpenChange, api_url }: Props) {
     }
 
     const onSubmit = (onClose: () => void) => {
-        axios.post(api_url, { "target": target, "location": location })
+        axios.post(`${api_url}/manage/urls`, { "target": target, "location": location })
             .then(onClose)
     }
     return (
