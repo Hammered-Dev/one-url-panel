@@ -2,9 +2,9 @@
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import AppBar from "./appbar"
-import { IconButton } from "./buttons"
 import { useRouter } from "next/navigation"
 import { faHouse } from "@fortawesome/free-regular-svg-icons"
+import { Button, NavbarContent } from "@heroui/react"
 
 export function SettingsAppBar() {
     const router = useRouter()
@@ -12,10 +12,12 @@ export function SettingsAppBar() {
         <AppBar
             title='Settings'
             leading_icon={"/ou.svg"}
-            actions={<IconButton
-                icon={<FontAwesomeIcon icon={faHouse} />}
-                className={"hover:bg-gray-300 dark:hover:bg-slate-500"}
-                onClick={() => router.back()} />
+            actions={
+                <NavbarContent justify="end">
+                    <Button isIconOnly onPress={() => router.back()}>
+                        <FontAwesomeIcon icon={faHouse} />
+                    </Button>
+                </NavbarContent>
             } />
     )
 }

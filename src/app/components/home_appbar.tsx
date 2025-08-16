@@ -2,36 +2,27 @@
 
 import { faGear } from "@fortawesome/free-solid-svg-icons"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { useSearchParams, usePathname, useRouter } from "next/navigation"
+import { useRouter } from "next/navigation"
 import AppBar from "./appbar"
-import { TextButton, IconButton } from "./buttons"
+import { Button, NavbarContent, useDisclosure } from "@heroui/react"
+import AddURlModal from "./add_url_modal"
 
-export function HomeAppBar() {
+export function HomeAppBar({ api_url }: { api_url: string }) {
     const router = useRouter()
-    const searchParams = useSearchParams()
-    const path = usePathname()
+    const { isOpen, onOpen, onOpenChange } = useDisclosure()
 
-    const showDialog = () => {
-        const params = new URLSearchParams(searchParams)
-        params.set('dialog', 'true')
-        router.replace(`${path}?${params.toString()}`)
-    }
     return (
-        <AppBar
-            title={"OneUrl"}
-            leading_icon={"/ou.svg"}
-            actions={
-                <div className="gap-1 flex flex-row">
-                    <TextButton
-                        text={"Create"}
-                        onClick={() => showDialog()}
-                        className={"bg-green-300 hover:bg-green-500 dark:bg-green-700"} />
-                    <IconButton
-                        icon={<FontAwesomeIcon
-                            icon={faGear} />}
-                        onClick={() => { router.push('/settings') }}
-                        className={"hover:bg-gray-300 dark:hover:bg-slate-500"} />
-                </div>
-            } />
+        <>
+            <AppBar
+                title={"OneUrl"}
+                leading_icon={"/ou.svg"}
+                actions={<NavbarContent justify="end">
+                    <Button color="primary" onPress={onOpen}>Create</Button>
+                    <Button onPress={() => router.push('/settings')} isIconOnly>
+                        <FontAwesomeIcon icon={faGear} />
+                    </Button>
+                </NavbarContent>} />
+            <AddURlModal isOpen={isOpen} onOpenChange={onOpenChange} api_url={api_url} />
+        </>
     )
 }

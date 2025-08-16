@@ -1,32 +1,30 @@
 'use client'
 
-import DeleteUrlButton from "./delete_url_button";
-import OpenTabButton from "./open_tab_button";
+import { Button, Card, CardFooter, CardHeader, Divider } from "@heroui/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faLink, faTrash } from "@fortawesome/free-solid-svg-icons";
 
 type Props = {
     target: string | undefined;
     location: string | undefined;
-    api_url: string;
 }
 
-export default function UrlItem({ target, location, api_url }: Props) {
-    const target_array = target?.split('/')
-    const target_id = target_array ? target_array[target_array.length - 1] : ""
-
+export default function UrlItem({ target, location }: Props) {
     return (
-        <div className="flex flex-row items-center w-full p-2 border-b border-b-black/15 gap-1 dark:border-b-white/25">
-            <div>
-                <OpenTabButton link={`rd/${target}`} />
-            </div>
-            <div className="w-full">
-                {target}
-            </div>
-            <div className="w-full">
-                {location}
-            </div>
-            <div className="flex flex-row gap-3">
-                <DeleteUrlButton api_url={`${api_url}/manage/urls/${target_id}`} />
-            </div>
-        </div>
+        <Card className="max-w-2xs">
+            <CardHeader className="flex flex-col">
+                <p className="text-medium">{target}</p>
+                <p className="text-small">{location}</p>
+            </CardHeader>
+            <Divider />
+            <CardFooter className="flex flex-row gap-2">
+                <Button isIconOnly onPress={() => window.open(`rd/${target}`, '_blank', 'noopener,noreferrer')}>
+                    <FontAwesomeIcon icon={faLink} />
+                </Button>
+                <Button isIconOnly color="danger">
+                    <FontAwesomeIcon icon={faTrash} />
+                </Button>
+            </CardFooter>
+        </Card>
     )
 }

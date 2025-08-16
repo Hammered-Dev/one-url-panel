@@ -23,7 +23,6 @@ export default function UrlList({ api_url }: { api_url: string }) {
                                         key={value.target}
                                         target={value.target}
                                         location={value.location}
-                                        api_url={api_url}
                                     />
                                 )
                             })
