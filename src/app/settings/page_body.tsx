@@ -1,20 +1,22 @@
 'use client'
 
 import axios from "axios"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { SettingsBottomBar } from "../components/settings_bottom_bar"
 import { useRouter } from "next/navigation"
 import { Input } from "@heroui/react"
+import { ApiContext } from "../providers"
 
-export function SettingBody({ api_url }: { api_url: string }) {
+export function SettingBody() {
     const [delay, setDelay] = useState("3000")
     const router = useRouter()
+    const data = useContext(ApiContext)
 
     useEffect(() => {
-        axios.get(`${api_url}/settings`)
+        axios.get(`${data.API_URL}/settings`)
             .then((value) => setDelay(value.data.delay))
             .catch((e) => console.log(e))
-    }, [api_url])
+    }, [data])
 
     return (
         <>
@@ -27,7 +29,7 @@ export function SettingBody({ api_url }: { api_url: string }) {
                 />
             </div>
             <SettingsBottomBar onSaveClick={() => {
-                axios.put(`${api_url}/settings`, { 'delay': delay })
+                axios.put(`${data.API_URL}/settings`, { 'delay': delay })
                     .then(() => router.back())
                     .catch((e) => console.log(e))
             }} />

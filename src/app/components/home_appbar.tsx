@@ -6,10 +6,14 @@ import { useRouter } from "next/navigation"
 import AppBar from "./appbar"
 import { Button, NavbarContent, useDisclosure } from "@heroui/react"
 import AddURlModal from "./add_url_modal"
+import LoginButton from "./login_button"
+import { useContext } from "react"
+import { ApiContext } from "../providers"
 
-export function HomeAppBar({ api_url }: { api_url: string }) {
+export function HomeAppBar() {
     const router = useRouter()
     const { isOpen, onOpen, onOpenChange } = useDisclosure()
+    const data = useContext(ApiContext)
 
     return (
         <>
@@ -21,8 +25,9 @@ export function HomeAppBar({ api_url }: { api_url: string }) {
                     <Button onPress={() => router.push('/settings')} isIconOnly>
                         <FontAwesomeIcon icon={faGear} />
                     </Button>
+                    <LoginButton />
                 </NavbarContent>} />
-            <AddURlModal isOpen={isOpen} onOpenChange={onOpenChange} api_url={api_url} />
+            <AddURlModal isOpen={isOpen} onOpenChange={onOpenChange} api_url={data.API_URL} />
         </>
     )
 }

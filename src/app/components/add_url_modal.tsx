@@ -2,26 +2,27 @@
 
 import { Button, Input, Modal, ModalBody, ModalContent, ModalFooter, ModalHeader } from "@heroui/react"
 import axios from "axios"
-import { useState } from "react"
+import { useContext, useState } from "react"
+import { ApiContext } from "../providers"
 
 type Props = {
     isOpen: boolean,
     onOpenChange: (arg0: boolean) => void,
-    api_url: string
 }
 
-export default function AddURlModal({ isOpen, onOpenChange, api_url }: Props) {
+export default function AddURlModal({ isOpen, onOpenChange }: Props) {
     const [target, setTarget] = useState("");
     const [location, setLocation] = useState("");
     const errors: string[] = []
     const specialCharRegex = /[^\p{L}\p{N}\s-]/u
+    const data = useContext(ApiContext)
 
     if (specialCharRegex.test(target)) {
         errors.push('Target must not contain any special characters')
     }
 
     const onSubmit = (onClose: () => void) => {
-        axios.post(`${api_url}/manage/urls`, { "target": target, "location": location })
+        axios.post(`${data.API_URL}/manage/urls`, { "target": target, "location": location })
             .then(onClose)
     }
     return (

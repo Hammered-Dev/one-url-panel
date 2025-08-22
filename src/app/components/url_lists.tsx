@@ -2,18 +2,20 @@
 
 import axios from "axios";
 import UrlItem from "./urlItem";
-import { JSX, useEffect, useState } from "react";
+import { JSX, useContext, useEffect, useState } from "react";
+import { ApiContext } from "../providers";
 
-export default function UrlList({ api_url }: { api_url: string }) {
+export default function UrlList() {
     const [urls, setUrls] = useState<JSX.Element | null>(null)
     const [trigger, setTrigger] = useState(0)
+    const data = useContext(ApiContext)
     interface Url {
         target: string;
         location: string;
     }
 
     useEffect(() => {
-        axios.get(`${api_url}/manage/urls`)
+        axios.get(`${data.API_URL}/manage/urls`)
             .then((value) => {
                 setUrls(
                     <div className="p-2 grid-cols-2 gap-4 flex justify-center">
@@ -24,7 +26,7 @@ export default function UrlList({ api_url }: { api_url: string }) {
                                         key={value.target}
                                         target={value.target}
                                         location={value.location}
-                                        api_url={api_url}
+                                        api_url={data.API_URL}
                                         onDelete={() => setTrigger(trigger + 1)}
                                     />
                                 )
@@ -41,6 +43,6 @@ export default function UrlList({ api_url }: { api_url: string }) {
                     setUrls(<div>{`${error}`}</div>)
                 }
             })
-    }, [api_url, trigger])
+    }, [data.API_URL, trigger])
     return urls;
 }
