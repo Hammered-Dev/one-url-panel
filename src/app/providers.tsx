@@ -26,10 +26,10 @@ type BaseConfig = {
 }
 
 export function ApiProvider({ children }: { children: React.ReactNode }) {
-    const api_url = env("API_URL");
-    const auth_server = env("AUTH_SERVER");
-    const client_id = env("CLIENT_ID");
-    const client_sceret = env("CLIENT_SECRET");
+    const api_url = env("NEXT_PUBLIC_API_URL");
+    const auth_server = env("NEXT_PUBLIC_AUTH_SERVER");
+    const client_id = env("NEXT_PUBLIC_CLIENT_ID");
+    const client_sceret = env("NEXT_PUBLIC_CLIENT_SECRET");
 
     const mapping: BaseConfig = {
         API_URL: api_url || "",

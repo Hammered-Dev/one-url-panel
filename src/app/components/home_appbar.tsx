@@ -27,7 +27,7 @@ export function HomeAppBar() {
                     </Button>
                     <LoginButton />
                 </NavbarContent>} />
-            <AddURlModal isOpen={isOpen} onOpenChange={onOpenChange} api_url={data.API_URL} />
+            <AddURlModal isOpen={isOpen} onOpenChange={onOpenChange} />
         </>
     )
 }
