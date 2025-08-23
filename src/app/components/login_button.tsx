@@ -8,18 +8,19 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser } from '@fortawesome/free-solid-svg-icons'
 
 export default function LoginButton() {
-    const [currentUrl, setCurrentUrl] = useState("")
+    const [redirect_uri, setCurrentUrl] = useState("")
     const data = useContext(ApiContext)
     const onClick = async () => {
         const server = URL.parse(data.AUTH_SERVER)
         if (!server) {
             return
         }
+        console.log(data.CLIENT_ID)
         const config: client.Configuration = await client.discovery(server, data.CLIENT_ID, data.CLIENT_SECRET)
         const scope = "openid profile offline_access"
 
         const parameters: Record<string, string> = {
-            currentUrl,
+            redirect_uri,
             scope,
         }
 
